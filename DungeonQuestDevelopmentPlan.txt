@@ -1,0 +1,24 @@
+
+Step 1
+generate rooms of random sizes
+
+Step 1a
+draw rooms in ascii art? or CSS? Add a "Map" command to draw the map
+
+Step 2
+generate rooms of various types: Corridor, small/med/large room
+
+Step 3
+generate connected rooms
+
+Step 4
+Generate random objects for room and possible interactions for oject: chest/open/take, torch/take/extinguish, door/open/close, sword/pickup/throw/use
+
+Step 5
+Generate random monstors/stats/interactions: Dragon/100hp/100xp/talk/kill/breath fire/claw
+
+
+
+
+Step 99
+Convert from javascript to react?
