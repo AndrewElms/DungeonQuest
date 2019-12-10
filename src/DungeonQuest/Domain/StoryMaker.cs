@@ -12,34 +12,45 @@ namespace DungeonGenerator
         {
             var numberOfMonsters = (monster.NumberOfMonsters == 1) ? "a" : monster.NumberOfMonsters.ToString();
 
-            var doorLocations = string.Empty;
-
-            if(room.NorthExit || room.SouthExit || room.EastExit || room.WestExit)
-            {
-                doorLocations = $"There are doors on the ";
-                if (room.NorthExit) { doorLocations += "north, "; };
-                if (room.SouthExit) { doorLocations += "south, "; };
-                if (room.EastExit) { doorLocations += "east, "; };
-                if (room.WestExit) { doorLocations += "west, "; };
-
-                doorLocations = doorLocations.Substring(0, doorLocations.Length - 2);
-
-                if (room.NorthExit ^ room.SouthExit ^ room.EastExit ^ room.WestExit)
-                {
-                    doorLocations += " wall.\n";
-                }
-                else
-                {
-                    doorLocations += " walls.\n";
-                }
-            }
-
-            var story = $"You stand in a room {room.Width}' x {room.Length}'.\n"
-                        + doorLocations
+            var story = $"You stand in a {room.Width}' x {room.Length}' {room.RoomType}.\n"
+                        + DoorLocations(room)
                         + $"On the far side of the room you see {numberOfMonsters} {monster.Name}, "
                         + $"guarding a {loot.Description}";
 
             return story;
+        }
+
+        private static string DoorLocations(RoomModel room)
+        {
+            var prefix = string.Empty;
+            var doorLocations = string.Empty;
+            var suffix = string.Empty;
+
+            for (int i=1; i <= room.ExitLocations.Count; i++)
+            {
+
+                doorLocations += room.ExitLocations[i-1];
+
+
+                if (i == room.ExitLocations.Count - 1)
+                    doorLocations += " and ";                
+                else if (i < room.ExitLocations.Count)
+                    doorLocations += ", ";
+            }
+
+            if (room.ExitLocations.Count == 1)
+            {
+                prefix = $"There is a door on the ";
+                suffix += " wall.\n";
+            }
+            else
+            {
+                prefix = $"There are doors on the ";
+                suffix += " walls.\n";
+            }            
+
+
+            return prefix + doorLocations + suffix;
         }
     }
 }
