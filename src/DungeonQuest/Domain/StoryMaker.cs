@@ -6,7 +6,7 @@ namespace DungeonGenerator
 {
     // This is the domain logic that knows how to make a story by combining a Room, Loot and Monster
     // Eventually this domain logic would also contain hit point attack calculators and other game mechanics
-    public class StoryMaker
+    public class StoryMaker : IStoryMaker
     {
         public string MakeAStory(RoomModel room, LootModel loot, MonsterModel monster)
         {
@@ -26,14 +26,14 @@ namespace DungeonGenerator
             var doorLocations = string.Empty;
             var suffix = string.Empty;
 
-            for (int i=1; i <= room.ExitLocations.Count; i++)
+            for (int i = 1; i <= room.ExitLocations.Count; i++)
             {
 
-                doorLocations += room.ExitLocations[i-1];
+                doorLocations += room.ExitLocations[i - 1];
 
 
                 if (i == room.ExitLocations.Count - 1)
-                    doorLocations += " and ";                
+                    doorLocations += " and ";
                 else if (i < room.ExitLocations.Count)
                     doorLocations += ", ";
             }
@@ -47,7 +47,7 @@ namespace DungeonGenerator
             {
                 prefix = $"There are doors on the ";
                 suffix += " walls.\n";
-            }            
+            }
 
 
             return prefix + doorLocations + suffix;

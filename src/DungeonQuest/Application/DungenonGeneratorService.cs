@@ -1,4 +1,5 @@
-﻿using DungeonGenerator.Services;
+﻿using DungeonGenerator.Infrastructure.Repository;
+using DungeonGenerator.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,30 +11,27 @@ namespace DungeonGenerator
     // Get a Room object from the RoomFactory
     public class DungenonGeneratorService
     {
-        private readonly ConsolePresentationAdapter _presentationAdapter;
-        private readonly RoomFactory _roomFactory;
-        private readonly RepositoryListTransformer _transformer;
-        private readonly LootRepository _lootRepo;
-        private readonly MonsterRepository _monsterRepo;
-        private readonly MonsterFactory _monsterFactory;
-        private readonly LootFactory _lootFactory;
-        private readonly StoryMaker _storyMaker;
+        private readonly IPresentation _presentationAdapter;
+        private readonly IRoom _roomFactory;
+        private readonly IRepositoryListTransformer _transformer;
+        private readonly IRepository _Repo;
+        private readonly IMonsterFactory _monsterFactory;
+        private readonly ILootFactory _lootFactory;
+        private readonly IStoryMaker _storyMaker;
 
         public DungenonGeneratorService(
-            ConsolePresentationAdapter presentationAdapter,
-            RoomFactory roomFactory,
-            RepositoryListTransformer transformer,
-            LootRepository lootRepo,
-            MonsterRepository monsterRepo,
-            MonsterFactory monsterFactory,
-            LootFactory lootFactory,
-            StoryMaker storyMaker)
+            IPresentation presentationAdapter,
+            IRoom roomFactory,
+            IRepositoryListTransformer transformer,
+            IRepository Repo,
+            IMonsterFactory monsterFactory,
+            ILootFactory lootFactory,
+            IStoryMaker storyMaker)
         {
             _presentationAdapter = presentationAdapter;
             _roomFactory = roomFactory;
             _transformer = transformer;
-            _lootRepo = lootRepo;
-            _monsterRepo = monsterRepo;
+            _Repo = Repo;
             _monsterFactory = monsterFactory;
             _lootFactory = lootFactory;
             _storyMaker = storyMaker;
@@ -42,8 +40,8 @@ namespace DungeonGenerator
         public void Create()
         {
             // Get the master lists of things like monsters and loot
-            var monsterData = _monsterRepo.GetList();
-            var lootData = _lootRepo.GetList();
+            var monsterData = _Repo.GetList(@"Monsters.json");   // SMELL: Should the file names be here?
+            var lootData = _Repo.GetList(@"Loot.json");          // SMELL: Should the file names be here?
 
             while (true)
             {
